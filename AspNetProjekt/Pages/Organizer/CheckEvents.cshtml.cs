@@ -7,23 +7,21 @@ using Microsoft.AspNetCore.Mvc.RazorPages;
 using Microsoft.EntityFrameworkCore;
 using AspNetProjekt.Data;
 using AspNetProjekt.Models;
-using Microsoft.AspNetCore.Authorization;
 
-namespace AspNetProjekt.Pages
+namespace AspNetProjekt.Pages.Organizer
 {
-    [Authorize(Roles = "admin")]
-    public class EventsModel : PageModel
+    public class CheckEventsModel : PageModel 
     {
         private readonly AspNetProjekt.Data.EventDbContext _context;
 
-        public EventsModel(AspNetProjekt.Data.EventDbContext context)
+        public CheckEventsModel(AspNetProjekt.Data.EventDbContext context)
         {
             _context = context;
         }
 
         public IList<Events> Events { get;set; }
 
-        public async Task OnGetAsync()
+        public async Task OnGetAsync() // Gör så den hämtar id från den som är inloggad, titta på "MyEvents" sidan.
         {
             Events = await _context.Event.ToListAsync();
         }

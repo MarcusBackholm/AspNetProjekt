@@ -30,8 +30,7 @@ namespace AspNetProjekt
             services.AddDbContext<EventDbContext>(options =>
             options.UseSqlServer(Configuration.GetConnectionString("EventDbContext")));
 
-            services.AddDefaultIdentity<MyUser>(
-            ).AddRoles<IdentityRole>().AddEntityFrameworkStores<EventDbContext>();
+            services.AddDefaultIdentity<MyUser>().AddRoles<IdentityRole>().AddEntityFrameworkStores<EventDbContext>();
             services.AddRazorPages();
         }
 

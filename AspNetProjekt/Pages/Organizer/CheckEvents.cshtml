@@ -1,11 +1,11 @@
 ﻿@page
-@model AspNetProjekt.Pages.EventsModel
+@model AspNetProjekt.Pages.Organizer.CheckEventsModel
 
 @{
-    ViewData["Title"] = "Events";
+    ViewData["Title"] = "CheckEvents";
 }
 
-<h1>Events</h1>
+<h1>CheckEvents</h1>
 
 <p>
     <a asp-page="Create">Create New</a>
@@ -50,7 +50,9 @@
                 @Html.DisplayFor(modelItem => item.Spots_Available)
             </td>
             <td>
-                <a asp-page="./JoineEvent" asp-route-id="@item.Id">Join Event</a>
+                <a asp-page="./Edit" asp-route-id="@item.Id">Edit</a> |
+                <a asp-page="./Details" asp-route-id="@item.Id">Details</a> |
+                <a asp-page="./Delete" asp-route-id="@item.Id">Delete</a>
             </td>
         </tr>
 }

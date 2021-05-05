@@ -1,0 +1,58 @@
+﻿@page
+@model AspNetProjekt.Pages.Admin.AdminPropertiesModel
+@{
+}
+
+@inject UserManager<MyUser> usermanager
+<h1>Hej Admin!</h1>
+<table class="table">
+    <thead>
+        <tr>
+            <th>
+                @Html.DisplayNameFor(model => model.Users[0].UserName)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Users[0].Email)
+            </th>
+            <th>
+                Is Organizer
+            </th>
+
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var item in Model.Users)
+        {
+            <tr>
+                <td>
+                    @Html.DisplayFor(modelItem => item.UserName)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Email)
+                </td>
+                <td>
+                    @if (usermanager.IsInRoleAsync(item, "admin").Result)
+                    {
+                    <p>Admin</p>
+                    }
+                    else
+                    {
+
+                    
+                    @if (usermanager.IsInRoleAsync(item, "organizer").Result)
+                    {
+                        <form method="post" asp-route-id="@item.Id">
+                            <input type="checkbox" onchange="this.form.submit()" checked />
+                        </form>
+                    }
+                    else
+                    {
+                        <form method="post" asp-route-id="@item.Id">
+                            <input type="checkbox" onchange="this.form.submit()" />
+                        </form>
+                    }}
+                </td>
+            </tr>
+        }
+    </tbody>
+</table>

@@ -1,0 +1,57 @@
+﻿@page
+@model AspNetProjekt.Pages.JoineEventModel
+
+@{
+    ViewData["Title"] = "JoineEvent";
+}
+
+<h1>JoinEvent</h1>
+
+<div>
+    <h4>Event</h4>
+    <hr />
+    <dl class="row">
+        <dt class="col-sm-2">
+            @Html.DisplayNameFor(model => model.Event.Title)
+        </dt>
+        <dd class="col-sm-10">
+            @Html.DisplayFor(model => model.Event.Title)
+        </dd>
+        <dt class="col-sm-2">
+            @Html.DisplayNameFor(model => model.Event.Description)
+        </dt>
+        <dd class="col-sm-10">
+            @Html.DisplayFor(model => model.Event.Description)
+        </dd>
+        <dt class="col-sm-2">
+            @Html.DisplayNameFor(model => model.Event.Place)
+        </dt>
+        <dd class="col-sm-10">
+            @Html.DisplayFor(model => model.Event.Place)
+        </dd>
+        <dt class="col-sm-2">
+            @Html.DisplayNameFor(model => model.Event.Date)
+        </dt>
+        <dd class="col-sm-10">
+            @Html.DisplayFor(model => model.Event.Date)
+        </dd>
+    </dl>
+</div>
+<div>
+</div>
+@if (Request.Method == "POST")
+{
+    <div class="d-flex flex-column py-2">
+        <h2>Successfully joined @Model.Event.Title! See you there!</h2>
+        <div>
+            <a asp-page="/Event" type="button">View More Events</a> |
+            <a asp-page="/MyEvents" type="button">View Your Events</a>
+        </div>
+    </div> }
+else
+{
+    <a asp-page="./Event">Back to List</a>
+    <form asp-route-id="@Model.Event.Id">
+        <input class="bg-transparent text-primary border-0" type="submit" value="Join This Event" />
+    </form>
+}

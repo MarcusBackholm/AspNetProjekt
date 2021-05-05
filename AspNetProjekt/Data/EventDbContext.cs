@@ -1,29 +1,31 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
+﻿using Microsoft.AspNetCore.Identity;
+using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
 using AspNetProjekt.Models;
-using Microsoft.AspNetCore.Identity;
-using System.Text;
-using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
+using System;
+using System.Threading.Tasks;
+
 
 namespace AspNetProjekt.Data
 {
-    public class EventDbContext : IdentityDbContext<MyUser>
+    public class EventDbContext : IdentityDbContext
     {
         public EventDbContext(DbContextOptions<EventDbContext> options)
             : base(options)
         {
         }
 
-        public DbSet<AspNetProjekt.Models.Events> Event { get; set; }
-        public DbSet<AspNetProjekt.Models.MyUser> MyUser { get; set; }
+        public DbSet<Events> Event { get; set; }
+        public DbSet<MyUser> MyUser { get; set; }
 
-        public async Task resetDb(UserManager<MyUser> userManager) // Seedar in användare i datorbasen
+        public async Task resetDb(UserManager<MyUser> userManager, RoleManager<IdentityRole> roleManager) // Seedar in användare i datorbasen
         {
             await Database.EnsureDeletedAsync();
             await Database.EnsureCreatedAsync();
+
+            await roleManager.CreateAsync(new IdentityRole("admin")); //Skapar användar roller.
+            await roleManager.CreateAsync(new IdentityRole("organizer"));
+            await roleManager.CreateAsync(new IdentityRole("user"));
 
             MyUser attendee = new MyUser()
             {
@@ -34,6 +36,7 @@ namespace AspNetProjekt.Data
                 PhoneNumber = "123456789"
             };
             await userManager.CreateAsync(attendee, "Testuser123!"); // Skapar en attendee med specifikt lösenord.
+            await userManager.AddToRoleAsync(attendee, "user");
 
             MyUser admin = new MyUser()
             {
@@ -44,6 +47,7 @@ namespace AspNetProjekt.Data
                 PhoneNumber = "123456789"
             };
             await userManager.CreateAsync(admin, "Admin123!");
+            await userManager.AddToRoleAsync(admin, "admin");
 
             MyUser organizer = new MyUser()
             {
@@ -54,6 +58,7 @@ namespace AspNetProjekt.Data
                 PhoneNumber = "123456789"
             };
             await userManager.CreateAsync(organizer, "Organizer123!");
+            await userManager.AddToRoleAsync(organizer, "organizer");
 
             Events[] events = new Events[] {
                 new Events(){
