@@ -1,6 +1,9 @@
+using AspNetProjekt.Data;
+using AspNetProjekt.Models;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.HttpsPolicy;
+using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
@@ -24,6 +27,9 @@ namespace AspNetProjekt
         public void ConfigureServices(IServiceCollection services)
         {
             services.AddRazorPages();
+            services.AddDbContext<EventDbContext>(options =>
+            options.UseSqlServer(Configuration.GetConnectionString("EventDbContext")));
+            services.AddDefaultIdentity<MyUser>().AddEntityFrameworkStores<EventDbContext>();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
@@ -45,6 +51,7 @@ namespace AspNetProjekt
 
             app.UseRouting();
 
+            app.UseAuthentication();
             app.UseAuthorization();
 
             app.UseEndpoints(endpoints =>
