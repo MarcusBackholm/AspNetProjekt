@@ -14,7 +14,7 @@ namespace AspNetProjekt.Pages.Organizer
     public class CreateEventModel : PageModel
     {
         private readonly EventDbContext _context;
-        private readonly userManager<MyUser> _userManager;
+        private readonly UserManager<MyUser> _userManager;
 
         public CreateEventModel(EventDbContext context, UserManager<MyUser> usermanager)
         {
