@@ -7,16 +7,19 @@ using Microsoft.AspNetCore.Mvc.RazorPages;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using AspNetProjekt.Data;
 using AspNetProjekt.Models;
+using Microsoft.AspNetCore.Identity;
 
 namespace AspNetProjekt.Pages.Organizer
 {
     public class CreateEventModel : PageModel
     {
-        private readonly AspNetProjekt.Data.EventDbContext _context;
+        private readonly EventDbContext _context;
+        private readonly userManager<MyUser> _userManager;
 
-        public CreateEventModel(AspNetProjekt.Data.EventDbContext context)
+        public CreateEventModel(EventDbContext context, UserManager<MyUser> usermanager)
         {
             _context = context;
+            _userManager = usermanager;
         }
 
         public IActionResult OnGet()
@@ -37,6 +40,7 @@ namespace AspNetProjekt.Pages.Organizer
 
             _context.Event.Add(Events);
             await _context.SaveChangesAsync();
+
 
             return RedirectToPage("./Index");
         }
