@@ -33,6 +33,15 @@
                                 <a class="nav-link text-dark" asp-area="" asp-page="/Admin/AdminProperties">Properties</a>
                             </li>
                         }
+                        @if (User.IsInRole("organizer"))
+                        {
+                            <li class="nav-item">
+                                <a class="nav-link text-dark" asp-area="" asp-page="/Organizer/CheckEvents">Check Events</a>
+                            </li>
+                            <li class="nav-item">
+                                <a class="nav-link text-dark" asp-area="" asp-page="/Organizer/CreateEvent">Create Event</a>
+                            </li>
+                        }
                     </ul>
                 </div>
                 <partial name="_LoginPartial" /> <!--Identity login-->
