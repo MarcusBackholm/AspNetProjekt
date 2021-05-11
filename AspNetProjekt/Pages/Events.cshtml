@@ -47,7 +47,10 @@
                 @Html.DisplayFor(modelItem => item.Spots_Available)
             </td>
             <td>
+                @if (User.IsInRole("user") || User.IsInRole("admin")) // Knapparna ses bara för admin och user rollerna.
+                {
                 <a asp-page="./JoineEvent" asp-route-id="@item.Id">Join Event</a>
+                }
             </td>
         </tr>
 }

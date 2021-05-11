@@ -8,9 +8,12 @@ using Microsoft.AspNetCore.Mvc.Rendering;
 using AspNetProjekt.Data;
 using AspNetProjekt.Models;
 using Microsoft.AspNetCore.Identity;
+using Microsoft.AspNetCore.Authorization;
+using Microsoft.EntityFrameworkCore;
 
 namespace AspNetProjekt.Pages.Organizer
 {
+    [Authorize (Roles = "organizer")] // Gör så att bara organizer har behörighet.
     public class CreateEventModel : PageModel
     {
         private readonly EventDbContext _context;
@@ -38,11 +41,18 @@ namespace AspNetProjekt.Pages.Organizer
                 return Page();
             }
 
-            _context.Event.Add(Events);
+            var GetId = _userManager.GetUserId(User);
+
+            var user = await _context.MyUser
+                .Where(u => u.Id == GetId)
+                .Include(u => u.HostedEvents)
+                .FirstOrDefaultAsync();
+
+            user.HostedEvents.Add(Events);
+
             await _context.SaveChangesAsync();
 
-
-            return RedirectToPage("./Index");
+            return RedirectToPage("/Index");
         }
     }
 }

@@ -11,7 +11,6 @@ using Microsoft.AspNetCore.Authorization;
 
 namespace AspNetProjekt.Pages
 {
-    [Authorize(Roles = "organizer")]
     public class EventsModel : PageModel
     {
         private readonly AspNetProjekt.Data.EventDbContext _context;

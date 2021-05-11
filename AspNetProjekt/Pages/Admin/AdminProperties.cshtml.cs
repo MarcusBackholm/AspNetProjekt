@@ -4,6 +4,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using AspNetProjekt.Data;
 using AspNetProjekt.Models;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
@@ -11,6 +12,7 @@ using Microsoft.EntityFrameworkCore;
 
 namespace AspNetProjekt.Pages.Admin
 {
+    [Authorize(Roles = "admin")]
     public class AdminPropertiesModel : PageModel
     {
         private readonly EventDbContext _context;

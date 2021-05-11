@@ -8,9 +8,11 @@ using Microsoft.EntityFrameworkCore;
 using AspNetProjekt.Data;
 using AspNetProjekt.Models;
 using Microsoft.AspNetCore.Identity;
+using Microsoft.AspNetCore.Authorization;
 
 namespace AspNetProjekt.Pages.Organizer
 {
+    [Authorize(Roles = "organizer")]
     public class CheckEventsModel : PageModel 
     {
         private readonly AspNetProjekt.Data.EventDbContext _context;
@@ -29,10 +31,10 @@ namespace AspNetProjekt.Pages.Organizer
             var userId = _userManager.GetUserId(User);
             var userJoin = await _context.MyUser
               .Where(e => e.Id == userId)
-              .Include(a => a.JoinedEvents)
+              .Include(a => a.HostedEvents)
               .FirstOrDefaultAsync();
 
-            Events = userJoin.JoinedEvents;
+            Events = userJoin.HostedEvents;
         }
     }
 }
