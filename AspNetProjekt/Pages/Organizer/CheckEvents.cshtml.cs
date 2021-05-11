@@ -26,7 +26,13 @@ namespace AspNetProjekt.Pages.Organizer
 
         public async Task OnGetAsync() // Gör så den hämtar id från den som är inloggad, titta på "MyEvents" sidan.
         {
-            Events = await _context.Event.ToListAsync();
+            var userId = _userManager.GetUserId(User);
+            var userJoin = await _context.MyUser
+              .Where(e => e.Id == userId)
+              .Include(a => a.JoinedEvents)
+              .FirstOrDefaultAsync();
+
+            Events = userJoin.JoinedEvents;
         }
     }
 }
